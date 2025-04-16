@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "956925326588",
+    "project_id": "work-assistant-178cc",
+    "storage_bucket": "work-assistant-178cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956925326588:android:e4aec1a9c3694ad281d379",
+        "android_client_info": {
+          "package_name": "com.example.ai_work_assistant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvCQw9Hsqgo_qOBMb8ajiFsIhSLR7Q6kw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
