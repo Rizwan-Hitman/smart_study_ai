@@ -1,4 +1,4 @@
-package com.example.ai_work_assistant
+package com.smartstudy.workai
 
 import io.flutter.embedding.android.FlutterActivity
 
