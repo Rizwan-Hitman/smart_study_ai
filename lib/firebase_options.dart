@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBvCQw9Hsqgo_qOBMb8ajiFsIhSLR7Q6kw',
-    appId: '1:956925326588:android:e4aec1a9c3694ad281d379',
+    appId: '1:956925326588:android:1aa2c2b14952a76881d379',
     messagingSenderId: '956925326588',
     projectId: 'work-assistant-178cc',
     storageBucket: 'work-assistant-178cc.firebasestorage.app',
@@ -60,11 +60,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAl4BNOsV5bmPPG9HA55vtk8qY4JHZfMVc',
-    appId: '1:956925326588:ios:a63f4ebc30cc267c81d379',
+    appId: '1:956925326588:ios:b0ec8f99a5563f0f81d379',
     messagingSenderId: '956925326588',
     projectId: 'work-assistant-178cc',
     storageBucket: 'work-assistant-178cc.firebasestorage.app',
-    iosBundleId: 'com.example.aiWorkAssistant',
+    iosBundleId: 'com.smartstudy.workai',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'work-assistant-178cc.firebasestorage.app',
     measurementId: 'G-HG8P4VGN4W',
   );
+
 }
