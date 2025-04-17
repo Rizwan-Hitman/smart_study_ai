@@ -246,7 +246,8 @@ class PlanOverviewView extends GetView<PlanOverviewController> {
                             onTap: () async {
                               await controller.saveAllStudyPlanToDatabase();
                               // await controller.setStudyPlanNotifications();
-                              await controller.goToHome();
+                              await controller.goToCompleteStudyPlan();
+                              // await controller.goToHome();
                             },
                             child: Container(
                               child: textIcon(

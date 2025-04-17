@@ -146,10 +146,10 @@ The final output **must strictly follow** the schema below:
             description: "Name of the plan.",
             nullable: false,
           ),
-          'topics': Schema.array(
-            description: 'List of all extracted topics.',
-            items: Schema.string(nullable: false),
-          ),
+          // 'topics': Schema.array(
+          //   description: 'List of all extracted topics.',
+          //   items: Schema.string(nullable: false),
+          // ),
           'importantTopics': Schema.array(
             description: 'List of prioritized topics.',
             items: Schema.string(nullable: false),
@@ -161,7 +161,7 @@ The final output **must strictly follow** the schema below:
           ),
         },
         requiredProperties: [
-          'topics',
+          // 'topics',
           'importantTopics',
           'studyPatches',
           'studyPlanTitle',

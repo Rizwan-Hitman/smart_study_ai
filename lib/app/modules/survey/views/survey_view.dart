@@ -460,7 +460,7 @@ class SurveyScreen extends GetView<SurveyController> {
                 rangeStartDay: controller.selectedStartDate.value,
                 rangeEndDay: controller.selectedEndDate.value,
                 firstDay: DateTime.now(),
-                lastDay: DateTime.now().add(Duration(days: 30)), // 1-year range
+                lastDay: DateTime.now().add(Duration(days: 20)), // 1-year range
                 focusedDay: controller.selectedEndDate.value,
                 rowHeight: SizeConfig.blockSizeHorizontal * 15,
                 daysOfWeekHeight: SizeConfig.blockSizeHorizontal * 10,

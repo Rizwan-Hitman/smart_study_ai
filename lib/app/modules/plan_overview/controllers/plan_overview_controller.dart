@@ -6,6 +6,7 @@ import 'package:ai_work_assistant/services/database_service.dart';
 import 'package:ai_work_assistant/utills/common_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:developer' as developer;
 
 class PlanOverviewController extends GetxController {
   //TODO: Implement PlanOverviewController
@@ -92,6 +93,18 @@ class PlanOverviewController extends GetxController {
 
   Future<void> goToHome() async {
     await Get.offAllNamed(Routes.HOME);
+  }
+
+  Future<void> goToCompleteStudyPlan() async {
+    developer.log("completeStudyPlan: ${completeStudyPlan.toMap()}");
+
+    Get.offAllNamed(
+      Routes.COMPLETE_STUDY_PLAN,
+      arguments: {
+        "completeStudyPlan": completeStudyPlan.toMap(),
+        "redirectToHome": true,
+      },
+    );
   }
 
   @override

@@ -27,7 +27,7 @@ class StudyContentView extends GetView<StudyContentController> {
         centerTitle: true,
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 4),
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 5),
         itemCount: controller.studyContentList.length,
         itemBuilder: (context, index) {
           print("$index");

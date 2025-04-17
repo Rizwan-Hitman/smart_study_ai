@@ -8,6 +8,7 @@ import 'package:ai_work_assistant/services/database_service.dart';
 import 'package:ai_work_assistant/utills/common_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:developer' as developer;
 
 class HomeController extends GetxController {
   var backButtonPressed = false.obs;
@@ -28,6 +29,7 @@ class HomeController extends GetxController {
   }
 
   void goToStudyPlanListView(CompleteStudyPlan completeStudyPlan) {
+    developer.log("completeStudyPlan: ${completeStudyPlan.toMap()}");
     Get.toNamed(
       Routes.COMPLETE_STUDY_PLAN,
       arguments: {"completeStudyPlan": completeStudyPlan.toMap()},

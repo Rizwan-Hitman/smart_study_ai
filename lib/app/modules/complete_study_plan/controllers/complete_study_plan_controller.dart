@@ -27,6 +27,7 @@ class CompleteStudyPlanController extends GetxController {
   var errorMessage = "".obs;
   var isLoading = false.obs;
   late List<StudyContent> studyContentList;
+  bool redirectToHome = false;
 
   @override
   void onInit() {
@@ -34,9 +35,14 @@ class CompleteStudyPlanController extends GetxController {
     completeStudyPlan = CompleteStudyPlan.fromMap(
       Get.arguments["completeStudyPlan"] as Map<String, dynamic>,
     );
+    redirectToHome = Get.arguments["redirectToHome"] ?? false;
   }
 
   Future<bool> backButtonHandler() async {
+    if (redirectToHome) {
+      await Get.offAllNamed(Routes.HOME);
+      return false;
+    }
     return allowBackButton.value;
   }
 
@@ -63,44 +69,17 @@ class CompleteStudyPlanController extends GetxController {
         - Duration: ${studyPlanDuration.inMinutes} minutes  
         - Attached File: (Use this as the primary content source. If insufficient, generate content from your knowledge.)
 
-        ---
-
-        ## Your Role
-
-        For each topic, generate a structured and **professionally formatted** Markdown response.
-
-        ### Structure Rules
-
-        Each topic must return an object with:
-
-        - `topicTitle`: The name of the topic (clean text, no formatting inside)
-        - `topicContent`: A **well-organized**, **visually appealing**, and **strictly Markdown-formatted** explanation
-
-        ---
-
-        ## Formatting Guidelines
-
-        1. **DO NOT repeat the topic title inside the content.**
-        2. Use varied formatting styles across topics, including:
-          - `##` and `###` for headings
-          - Bullet points (`-`, `*`)
-          - Numbered lists
-          - Tables (when relevant)
-          - Blockquotes (`>`) for summaries or highlights
-          - Code blocks (for logic-heavy or technical topics)
-        3. Ensure each topic’s format is **unique** — no copy-paste structure between topics.
-        4. No large unbroken paragraphs.
-        5. Make the content engaging and digestible, but professional.
-
-        ---
-
-        ## Length & Quality Expectations
-
-        - The total content must fit the time duration — not overly short or excessively long.
-        - Prioritize clarity, logic, and good spacing.
-        - Avoid fluff or generic explanations.
-
-        ---
+      - Content should be wrapped in normal markdown syntax. Keep sentences concise and properly formatted.
+    - Headings (H1-H3) should follow standard markdown syntax (# H1, ## H2, ### H3). Use them to structure the content logically.
+    - Bold (*text) and Italic (*text) should be used where necessary to emphasize key points.
+    - Links ([text](URL)) should be clearly structured, using simple URLs.
+    - Lists should be formatted correctly:
+    - Ordered lists (1. Item) should contain at least three points.
+    - Unordered lists (- Item) should use dashes (-) and maintain uniform indentation.
+    - Code Blocks should be enclosed with triple backticks () and specify the programming language (e.g., dart for Dart code). Keep indentation clean and consistent.
+    - Blockquotes (> Text) should be used for important notes or callouts.
+    - Tables should be formatted using | Column 1 | Column 2 | syntax, with proper alignment.
+    - Make sure the output is structured, readable, and follows best markdown practices. Format everything cleanly, keeping it simple yet visually appealing."
       """;
 
     GeminiService geminiService = GeminiService();
