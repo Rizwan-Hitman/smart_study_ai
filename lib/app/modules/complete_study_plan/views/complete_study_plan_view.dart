@@ -28,6 +28,9 @@ class CompleteStudyPlanView extends GetView<CompleteStudyPlanController> {
           interactive: true,
           thickness: SizeConfig.blockSizeHorizontal * 1.2,
           child: DraggableHome(
+            leading: GestureDetector(
+              onTap: Get.back,
+              child: Icon(Icons.arrow_back_ios_new_rounded,color: Colors.white,)),
             actions: [
               // IconButton(
               //   onPressed: () {},
@@ -253,6 +256,22 @@ class CompleteStudyPlanView extends GetView<CompleteStudyPlanController> {
                                       }
                                     },
                                     child: Container(
+                                      height: SizeConfig.blockSizeVertical * 4,
+                                      // width: SizeConfig.blockSizeHorizontal * 30,
+
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.shade400,
+                                          offset: Offset(-1, 2),
+                                          blurRadius: 1,
+                                          spreadRadius: 1
+                                        )
+                                      ],
+                                      color: AppColors.studyPatchColor,
+                                      border: Border.all(color: AppColors.backgroundColor),
+                                      borderRadius: BorderRadius.circular(SizeConfig.blockSizeHorizontal * 1,)
+                                    ),
                                       padding: EdgeInsets.symmetric(
                                         horizontal:
                                             SizeConfig.blockSizeHorizontal * 2,
@@ -266,12 +285,12 @@ class CompleteStudyPlanView extends GetView<CompleteStudyPlanController> {
                                       ),
                                       child: textIcon(
                                         "Prepare",
-                                        Icons.arrow_right_alt_outlined,
-                                        AppColors.backgroundColor,
+                                        Icons.arrow_forward_ios_rounded,
+                                        AppColors.textColor,
                                         true,
                                         SizeConfig.blockSizeHorizontal * 2.8,
-                                        SizeConfig.blockSizeHorizontal * 5,
-                                        SizeConfig.blockSizeHorizontal * 1,
+                                        SizeConfig.blockSizeHorizontal * 4,
+                                        SizeConfig.blockSizeHorizontal * 2,
                                       ),
                                     ),
                                   ),

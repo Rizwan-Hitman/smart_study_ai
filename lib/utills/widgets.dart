@@ -13,7 +13,7 @@ Row textIcon(
   double iconSpace,
 ) {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(
         text,

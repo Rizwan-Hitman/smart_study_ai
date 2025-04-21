@@ -34,20 +34,20 @@ class SurveyScreen extends GetView<SurveyController> {
       "Engineering",
       "Medical",
       "Business",
-      "Finance",
+      // "Finance",
       "Psychology",
       "History",
       "Literature",
       "Art & Design",
       "Music",
-      "Self-Improvement",
-      "Marketing",
+      // "Self-Improvement",
+      // "Marketing",
       "Health & Fitness",
       "Cybersecurity",
       "Data Science",
       "Machine Learning",
       "Blockchain",
-      "Political Science",
+      // "Political Science",
       "Geography",
       "Biotechnology",
       "Sociology",
@@ -79,6 +79,7 @@ class SurveyScreen extends GetView<SurveyController> {
         body: Obx(
           () =>
               controller.finalizingSurvey.value
+          
                   ? loadingWidget()
                   : SafeArea(
                     bottom: false,
@@ -88,6 +89,7 @@ class SurveyScreen extends GetView<SurveyController> {
                         //   value: (controller.currentStep.value + 1) / 6,
                         // ),
                         Container(
+                          // margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
                           // padding: EdgeInsets.symmetric(
                           //   horizontal: SizeConfig.blockSizeHorizontal * 3,
                           //   vertical: SizeConfig.blockSizeHorizontal * 8,
@@ -206,7 +208,7 @@ class SurveyScreen extends GetView<SurveyController> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.mulish(
                                                 fontWeight: FontWeight.w700,
-
+                    
                                                 color: AppColors.textColor,
                                               ),
                                             ),
@@ -255,6 +257,7 @@ class SurveyScreen extends GetView<SurveyController> {
                       ],
                     ),
                   ),
+       
         ),
       ),
     );
@@ -607,6 +610,7 @@ class SurveyScreen extends GetView<SurveyController> {
         ),
 
         Container(
+        
           // color: Colors.white,
           padding: EdgeInsets.symmetric(
             horizontal: SizeConfig.blockSizeHorizontal * 4,
@@ -640,6 +644,7 @@ class SurveyScreen extends GetView<SurveyController> {
                 // visible:
                 //     controller.dailyStudyDuration.value == 0 ? false : true,
                 child: Container(
+                  
                   child: Text(
                     "Study Duration: ${CommonMethods.formattedDuration(controller.dailyStudyDuration.value)}",
                     style: GoogleFonts.publicSans(
@@ -804,6 +809,7 @@ class SurveyScreen extends GetView<SurveyController> {
         );
       },
       child: Container(
+        
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -814,6 +820,8 @@ class SurveyScreen extends GetView<SurveyController> {
           ],
         ),
         child: Container(
+
+    
           decoration: BoxDecoration(
             // color: AppColors.clockBackgroundColor,
             borderRadius: BorderRadius.circular(15),
@@ -831,7 +839,7 @@ class SurveyScreen extends GetView<SurveyController> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  height: SizeConfig.blockSizeHorizontal * 15,
+                  height: SizeConfig.blockSizeHorizontal * 11,
                   // width: double.infinity,
                   child: Center(
                     child: Text(
@@ -896,8 +904,8 @@ class SurveyScreen extends GetView<SurveyController> {
       () => Column(
         children: [
           progressWithTextWidget(
-            "Study materials attachment (PDFs, Images)",
-            "(Please attach a file containing study materials, if available.)",
+            "Study material attachment (PDFs)",
+            "(Please attach a PDF file containing study material, if available.)",
           ),
           SizedBox(height: SizeConfig.blockSizeHorizontal * 20),
           GestureDetector(
@@ -1140,25 +1148,29 @@ class SurveyScreen extends GetView<SurveyController> {
                                         controller.generatePlan();
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              SizeConfig.blockSizeHorizontal *
-                                              5,
-                                          vertical:
-                                              SizeConfig.blockSizeHorizontal *
-                                              3,
-                                        ),
+                                        height: SizeConfig.blockSizeVertical * 4,
+                                        width: SizeConfig.blockSizeHorizontal * 32,
+                                        // padding: EdgeInsets.symmetric(
+                                        //   horizontal:
+                                        //       SizeConfig.blockSizeHorizontal *
+                                        //       5,
+                                        //   vertical:
+                                        //       SizeConfig.blockSizeHorizontal *
+                                        //       3,
+                                        // ),
                                         decoration: BoxDecoration(
                                           color: AppColors.clockForegroundColor,
                                           borderRadius: BorderRadius.circular(
                                             5,
                                           ),
                                         ),
-                                        child: Text(
-                                          "Generate Plan",
-                                          style: GoogleFonts.nunitoSans(
-                                            color: AppColors.background2,
-                                            fontWeight: FontWeight.w800,
+                                        child: Center(
+                                          child: Text(
+                                            "Generate Plan",
+                                            style: GoogleFonts.nunitoSans(
+                                              color: AppColors.background2,
+                                              fontWeight: FontWeight.w800,
+                                            ),
                                           ),
                                         ),
                                       ),

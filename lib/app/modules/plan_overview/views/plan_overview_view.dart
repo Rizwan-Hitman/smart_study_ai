@@ -28,6 +28,7 @@ class PlanOverviewView extends GetView<PlanOverviewController> {
         backgroundColor: AppColors.backgroundColor,
         body: Column(
           children: [
+           
             Container(
               width: SizeConfig.screenWidth,
               height: SizeConfig.blockSizeHorizontal * 23,

@@ -40,7 +40,7 @@ class CompleteStudyPlanController extends GetxController {
 
   Future<bool> backButtonHandler() async {
     if (redirectToHome) {
-      await Get.offAllNamed(Routes.HOME);
+      await Get.toNamed(Routes.HOME);
       return false;
     }
     return allowBackButton.value;

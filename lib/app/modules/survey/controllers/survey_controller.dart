@@ -460,7 +460,7 @@ Be precise in the even distribution of topics to ensure an effective and balance
     if (await Permission.manageExternalStorage.isGranted) {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'pdf', 'doc'],
+        allowedExtensions: ['pdf'],
         allowMultiple: false,
       );
 

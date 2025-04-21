@@ -16,6 +16,11 @@ class StudyContentView extends GetView<StudyContentController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
+        leading: GestureDetector(
+          onTap: (){
+            Get.back();
+          },
+          child: Icon(Icons.arrow_back_ios_new_rounded,color: Colors.white,)),
         title: Text(
           "Session ${controller.sessionNumber}",
           style: GoogleFonts.openSans(
