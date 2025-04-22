@@ -187,134 +187,143 @@ class SurveyController extends GetxController {
           }
 
           // Add a condition to regenerate the response if studyPlanPatches length is not equal to study days
+          // if (studyPlanData.studyPatches.length != preferredDates.length)
+          // {
+          // print(
+          //   "Mismatch between studyPlanPatches (${studyPlanData.studyPatches.length}) and study days (${preferredDates.length}). Regenerating response...",
+          // );
+          // isGeneratingStudyTopics.value = true;
+          // response = await generateStudyPlanData();
+          // List<List<String>> decoded =
+          //     (response['studyPatches'] as List)
+          //         .map<List<String>>((e) => List<String>.from(e))
+          //         .toList();
+
+          // developer.log(
+          //   "This is decoded studyPatches: $decoded and its type is ${decoded.runtimeType}",
+          // );
+
+          // decoded =
+          //     decoded
+          //         .map((innerList) => List<String>.from(innerList).toList())
+          //         .toList();
+          // List<String> allTopics =
+          //     List<List<String>>.from(decoded).expand((e) => e).toList();
+
+          // allTopics.addAll(List<String>.from(response['importantTopics']));
+          // allTopics.toSet().toList();
+
+          // response['topics'] = allTopics;
+
+          // studyPlanData = StudyPlanData.fromMap(response);
+          // studyPlanTitle.value = response['studyPlanTitle'];
+          // print("Regenerated studyPlanTitle : ${studyPlanTitle.value}");
+
+          // // Check again after regeneration
+          // if (studyPlanData == null || studyPlanData.topics.isEmpty) {
+          //   CommonMethods.showScaffoldMessenger(
+          //     "An Error occurred, Please try again.",
+          //   );
+          //   throw Exception(
+          //     'Study plan data is empty or null after regeneration',
+          //   );
+          // }
+          // if (studyPlanData.studyPatches.length != preferredDates.length) {
+          //   CommonMethods.showScaffoldMessenger(
+          //     "An Error occurred, Please try again.",
+          //   );
+
+          //   throw Exception(
+          //     'Study plan patches still do not match the number of study days after regeneration',
+          //   );
+          // } else {
+          // Generate the study plan
+
           if (studyPlanData.studyPatches.length != preferredDates.length) {
-            print(
-              "Mismatch between studyPlanPatches (${studyPlanData.studyPatches.length}) and study days (${preferredDates.length}). Regenerating response...",
-            );
-            isGeneratingStudyTopics.value = true;
-            response = await generateStudyPlanData();
-            List<List<String>> decoded =
-                (response['studyPatches'] as List)
-                    .map<List<String>>((e) => List<String>.from(e))
-                    .toList();
-
-            developer.log(
-              "This is decoded studyPatches: $decoded and its type is ${decoded.runtimeType}",
-            );
-
-            decoded =
-                decoded
-                    .map((innerList) => List<String>.from(innerList).toList())
-                    .toList();
-            List<String> allTopics =
-                List<List<String>>.from(decoded).expand((e) => e).toList();
-
-            allTopics.addAll(List<String>.from(response['importantTopics']));
-            allTopics.toSet().toList();
-
-            response['topics'] = allTopics;
-
-            studyPlanData = StudyPlanData.fromMap(response);
-            studyPlanTitle.value = response['studyPlanTitle'];
-            print("Regenerated studyPlanTitle : ${studyPlanTitle.value}");
-
-            // Check again after regeneration
-            if (studyPlanData == null || studyPlanData.topics.isEmpty) {
-              CommonMethods.showScaffoldMessenger(
-                "An Error occurred, Please try again.",
-              );
-              throw Exception(
-                'Study plan data is empty or null after regeneration',
-              );
+            int studyPatchesLength = studyPlanData.studyPatches.length;
+            int preferredDatesLength = preferredDates.length;
+            while (studyPatchesLength != preferredDatesLength) {
+              preferredDates.removeLast();
+              preferredDatesLength = preferredDates.length;
+              developer.log("removing last date: $preferredDatesLength");
             }
-            if (studyPlanData.studyPatches.length != preferredDates.length) {
-              CommonMethods.showScaffoldMessenger(
-                "An Error occurred, Please try again.",
-              );
-
-              throw Exception(
-                'Study plan patches still do not match the number of study days after regeneration',
-              );
-            } else {
-              // Generate the study plan
-              List<StudyPlan> studyPlan = getStudyPlan(studyPlanData);
-
-              if (studyPlan.isEmpty) {
-                throw Exception('Study plan is empty after generation');
-              }
-
-              // Ensure the study sessions are correctly parsed
-              List<DateTime> studySessions =
-                  preferredDates
-                      .map(
-                        (date) => DateTime.parse(
-                          "${date} ${fromTime.value.hour}:${fromTime.value.minute.toString().padLeft(2, "0")}:00",
-                        ),
-                      )
-                      .toList();
-
-              // Create the complete study plan object
-              completeStudyPlan = CompleteStudyPlan(
-                studyPlanTitle: studyPlanTitle.value,
-                studyPlanId: studyPlanId,
-                estimatedStudyDuration: Duration(
-                  minutes: dailyStudyDuration.value,
-                ),
-                studySessions: studySessions,
-                topicNames: studyPlanData.topics,
-                studyPlanPatches: studyPlan,
-                attachedFiles: attachedFiles,
-              );
-
-              // Convert to map for API or storage
-              mapCompleteStudyPlan = completeStudyPlan.toMap();
-              mapStudyPlanData = studyPlanData.toMap();
-
-              // Update state to show the generated study content
-              isGeneratingStudyTopics.value = false;
-              isShowStudyContent.value = true;
-              print("showStudyContent : ${isShowStudyContent.value}");
-            }
-          } else {
-            // Generate the study plan
-            List<StudyPlan> studyPlan = getStudyPlan(studyPlanData);
-
-            if (studyPlan.isEmpty) {
-              throw Exception('Study plan is empty after generation');
-            }
-
-            // Ensure the study sessions are correctly parsed
-            List<DateTime> studySessions =
-                preferredDates
-                    .map(
-                      (date) => DateTime.parse(
-                        "${date} ${fromTime.value.hour}:${fromTime.value.minute.toString().padLeft(2, "0")}:00",
-                      ),
-                    )
-                    .toList();
-
-            // Create the complete study plan object
-            completeStudyPlan = CompleteStudyPlan(
-              studyPlanTitle: studyPlanTitle.value,
-              studyPlanId: studyPlanId,
-              estimatedStudyDuration: Duration(
-                minutes: dailyStudyDuration.value,
-              ),
-              studySessions: studySessions,
-              topicNames: studyPlanData.topics,
-              studyPlanPatches: studyPlan,
-              attachedFiles: attachedFiles,
-            );
-
-            // Convert to map for API or storage
-            mapCompleteStudyPlan = completeStudyPlan.toMap();
-            mapStudyPlanData = studyPlanData.toMap();
-
-            // Update state to show the generated study content
-            isGeneratingStudyTopics.value = false;
-            isShowStudyContent.value = true;
-            print("showStudyContent : ${isShowStudyContent.value}");
           }
+          List<StudyPlan> studyPlan = getStudyPlan(studyPlanData);
+
+          if (studyPlan.isEmpty) {
+            throw Exception('Study plan is empty after generation');
+          }
+
+          // Ensure the study sessions are correctly parsed
+          List<DateTime> studySessions =
+              preferredDates
+                  .map(
+                    (date) => DateTime.parse(
+                      "${date} ${fromTime.value.hour}:${fromTime.value.minute.toString().padLeft(2, "0")}:00",
+                    ),
+                  )
+                  .toList();
+
+          // Create the complete study plan object
+          completeStudyPlan = CompleteStudyPlan(
+            studyPlanTitle: studyPlanTitle.value,
+            studyPlanId: studyPlanId,
+            estimatedStudyDuration: Duration(minutes: dailyStudyDuration.value),
+            studySessions: studySessions,
+            topicNames: studyPlanData.topics,
+            studyPlanPatches: studyPlan,
+            attachedFiles: attachedFiles,
+          );
+
+          // Convert to map for API or storage
+          mapCompleteStudyPlan = completeStudyPlan.toMap();
+          mapStudyPlanData = studyPlanData.toMap();
+
+          // Update state to show the generated study content
+          isGeneratingStudyTopics.value = false;
+          isShowStudyContent.value = true;
+          print("showStudyContent : ${isShowStudyContent.value}");
+          // }
+          // } else {
+          //   // Generate the study plan
+          //   List<StudyPlan> studyPlan = getStudyPlan(studyPlanData);
+
+          //   if (studyPlan.isEmpty) {
+          //     throw Exception('Study plan is empty after generation');
+          //   }
+
+          //   // Ensure the study sessions are correctly parsed
+          //   List<DateTime> studySessions =
+          //       preferredDates
+          //           .map(
+          //             (date) => DateTime.parse(
+          //               "${date} ${fromTime.value.hour}:${fromTime.value.minute.toString().padLeft(2, "0")}:00",
+          //             ),
+          //           )
+          //           .toList();
+
+          //   // Create the complete study plan object
+          //   completeStudyPlan = CompleteStudyPlan(
+          //     studyPlanTitle: studyPlanTitle.value,
+          //     studyPlanId: studyPlanId,
+          //     estimatedStudyDuration: Duration(
+          //       minutes: dailyStudyDuration.value,
+          //     ),
+          //     studySessions: studySessions,
+          //     topicNames: studyPlanData.topics,
+          //     studyPlanPatches: studyPlan,
+          //     attachedFiles: attachedFiles,
+          //   );
+
+          //   // Convert to map for API or storage
+          //   mapCompleteStudyPlan = completeStudyPlan.toMap();
+          //   mapStudyPlanData = studyPlanData.toMap();
+
+          //   // Update state to show the generated study content
+          //   isGeneratingStudyTopics.value = false;
+          //   isShowStudyContent.value = true;
+          //   print("showStudyContent : ${isShowStudyContent.value}");
+          // }
         }
       } catch (e, stackTrace) {
         // Handle any errors and log them
