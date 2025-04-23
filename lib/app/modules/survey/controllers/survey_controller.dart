@@ -544,10 +544,8 @@ Be precise in the even distribution of topics to ensure an effective and balance
         currentStep.value++;
       }
     } else if (currentStep.value == 2) {
-      if (totalDays == 0) {
-        CommonMethods.showScaffoldMessenger(
-          "Please select task completion date.",
-        );
+      if (totalStudyDays == 0) {
+        CommonMethods.showScaffoldMessenger("Study Days Cannot be zero.");
       } else {
         currentStep.value++;
       }
