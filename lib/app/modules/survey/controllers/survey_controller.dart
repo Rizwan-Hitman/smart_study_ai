@@ -242,12 +242,14 @@ class SurveyController extends GetxController {
           if (studyPlanData.studyPatches.length != preferredDates.length) {
             int studyPatchesLength = studyPlanData.studyPatches.length;
             int preferredDatesLength = preferredDates.length;
-            while (studyPatchesLength != preferredDatesLength) {
+            while (studyPatchesLength < preferredDatesLength) {
               preferredDates.removeLast();
               preferredDatesLength = preferredDates.length;
               developer.log("removing last date: $preferredDatesLength");
             }
-          }
+          } else if (studyPlanData.studyPatches.length <
+              preferredDates.length) {}
+
           List<StudyPlan> studyPlan = getStudyPlan(studyPlanData);
 
           if (studyPlan.isEmpty) {
@@ -396,7 +398,7 @@ class SurveyController extends GetxController {
       print("attachedFile path : ${attachedFiles[0]}");
       Uint8List fileBytes = await File(attachedFiles[0]).readAsBytes();
       String prompt = """
-You will be provided with a file containing study material. Your task is to carefully read and extract **only the topic names** from the table of contents, if available. 
+You will be provided with a file containing study material. Your task is to carefully read and extract **only the topic names** from the table of contents, if available.
 
 - **Do not include any lecture numbers**, subtopics, illustrations, or any additional content.
 - Only return the names of the topics from the table of contents. If there are references to lectures (e.g., "Lecture No. 1", "Lecture No. 2", etc.), **exclude them from the response**.
@@ -404,41 +406,44 @@ You will be provided with a file containing study material. Your task is to care
 After extracting the topics, you must categorize them into two groups: **important topics** and **non-important topics**.
 
 ### Key Instructions:
-1. **Fit All Topics Into Sessions**: 
-   - The goal is to **fit all topics** into the available sessions, ensuring that no topic is skipped unless there is absolutely no space for it. 
-   - **Cover as many topics as you can within the allotted time for each session**.
-   - If there is any leftover time at the end of a session, make sure to allocate additional topics that fit, rather than leaving any unused time.
+1. **Session Count Must Equal Study Days**:
+   - You are provided with **${preferredDates!.length} total study days**.
+   - You must create exactly **${preferredDates!.length} study sessions**, with **one session per day**.
+   - The length of the `studyPatches` list must **strictly equal the number of study days**. Do not create more or fewer sessions than the number of days.
 
-2. **Balance Topics Evenly**: 
-   - Distribute topics evenly across the available sessions, but ensure that no session is overloaded or underloaded. The topics should be grouped in a way that utilizes the **full session duration** without exceeding it.
-   - **Maximize session time** by ensuring every session is fully utilized with topics and that the last session is also filled up to its available time limit.
+2. **Balance Topics Across Sessions**:
+   - Distribute topics as evenly as possible across the ${preferredDates!.length} sessions.
+   - Ensure each session fits within the daily limit of **${dailyStudyDuration!} minutes**.
+   - Each session should be utilized fully without exceeding the allotted time.
 
-3. **Session Duration Consideration**:
-   - Consider the total session duration per day: **${dailyStudyDuration!} minutes**.
-   - The total study dates available: **${preferredDates!.length} days**.
-   - Divide the topics based on the total number of days and the session duration, ensuring that all topics are covered within the available time.
+3. **Adjust to Time Limits**:
+   - It is **not necessary to complete all topics** if the total number cannot fit within the provided study days and available daily time.
+   - Focus on **fitting as many topics as possible** into the time available, with priority given to important topics.
 
-4. **Ensure No Overload in Last Session**:
-   - If there are leftover topics that do not fit into the remaining time, **skip them** and do not overload the last session. The last session should **not** have significantly more topics than the others.
+4. **Maximize Topic Coverage**:
+   - Prioritize important topics when assigning to sessions.
+   - Cover as many topics as possible without skipping unless absolutely necessary due to time constraints.
+   - Try not to leave any unused time in sessions if additional topics can fit.
 
-5. **Efficient Time Usage**: 
-   - If any topic cannot fit into the current session, **skip it** and continue to the next topic. However, **try to cover all topics**, especially the important ones, and ensure that the topics are balanced in terms of time and priority.
+5. **Efficient Time Usage**:
+   - If a topic doesn't fit in the current session, move it to the next.
+   - Avoid overloading any session, especially the last one.
 
-6. **Avoid Skipping Important Topics**: 
-   - Ensure that **important topics** are covered in all sessions and given priority when distributing them across the sessions.
+6. **Important Topics First**:
+   - All important topics must be included in the session distribution if possible.
+   - Important topics should be prioritized during the planning to ensure their inclusion.
 
-Please ensure that:
-- Each session contains topics grouped evenly, with all important topics covered across the sessions.
-- The distribution of topics within each session is balanced to fit within the daily study duration, making efficient use of the time available.
-- **Cover as many topics as possible**, filling up each session to its maximum potential.
+### Output Schema:
+Respond strictly using the following keys:
+- `"studyPlanTitle"`: A meaningful title (Do **not** include the words "Study Plan").
+- `"topics"`: A list of extracted topic names **only**.
+- `"importantTopics"`: A prioritized list of important topics selected from the extracted topics.
+- `"studyPatches"`: A list with **exactly ${preferredDates!.length} sublists**, each representing one study session for a day. The topics should be distributed evenly and efficiently across these sessions.
 
-Your response should follow the required schema:
-  - "studyPlanTitle" : Provide a simple and meaningfull title (Avoid using "Study Plan" or any other words in the title).
-  - "topics": A list of all extracted topic names **(excluding any lecture numbers or references)** from the table of contents (if found).
-  - "importantTopics": A list of prioritized important topics from the extracted topics.
-  - "studyPatches": A list of sessions where topics are evenly grouped, ensuring that each session fits within the daily study duration and covers as many topics as possible.
-
-Be precise in the even distribution of topics to ensure an effective and balanced study plan.
+**Ensure**:
+- The number of sessions in `studyPatches` equals **${preferredDates!.length}** — not more, not less.
+- The distribution strictly respects the daily time limit and session count.
+- Topics are adjusted to fit within the provided time frame. Completing all topics is **not mandatory**.
 """;
 
       GeminiService geminiService = GeminiService(

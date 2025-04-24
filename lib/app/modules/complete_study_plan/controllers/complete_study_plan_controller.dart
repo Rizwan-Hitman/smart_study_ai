@@ -247,7 +247,7 @@ class CompleteStudyPlanController extends GetxController {
         await Future.delayed(Duration(seconds: 1));
         return await database.fetchSingleStudyContent(studyPlanId, topicIndex);
       },
-      loadingWidget: loadingWidget("Verifying content..."),
+      loadingWidget: loadingWidget("Loading up topic details..."),
     );
     print("checking database for existing study plan content");
     print("Study Plan Content: $response");
