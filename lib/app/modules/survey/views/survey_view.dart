@@ -4,6 +4,7 @@ import 'package:ai_work_assistant/utills/common_methods.dart';
 import 'package:ai_work_assistant/app/modules/survey/controllers/survey_controller.dart';
 import 'package:ai_work_assistant/utills/colors.dart';
 import 'package:ai_work_assistant/utills/size_config.dart';
+import 'package:ai_work_assistant/utills/start_feedback_widget.dart';
 import 'package:animate_gradient/animate_gradient.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:chips_choice/chips_choice.dart';
@@ -79,8 +80,7 @@ class SurveyScreen extends GetView<SurveyController> {
         body: Obx(
           () =>
               controller.finalizingSurvey.value
-          
-                  ? loadingWidget()
+                  ? loadingWidget(context)
                   : SafeArea(
                     bottom: false,
                     child: Column(
@@ -208,7 +208,7 @@ class SurveyScreen extends GetView<SurveyController> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.mulish(
                                                 fontWeight: FontWeight.w700,
-                    
+
                                                 color: AppColors.textColor,
                                               ),
                                             ),
@@ -257,7 +257,6 @@ class SurveyScreen extends GetView<SurveyController> {
                       ],
                     ),
                   ),
-       
         ),
       ),
     );
@@ -610,7 +609,6 @@ class SurveyScreen extends GetView<SurveyController> {
         ),
 
         Container(
-        
           // color: Colors.white,
           padding: EdgeInsets.symmetric(
             horizontal: SizeConfig.blockSizeHorizontal * 4,
@@ -644,7 +642,6 @@ class SurveyScreen extends GetView<SurveyController> {
                 // visible:
                 //     controller.dailyStudyDuration.value == 0 ? false : true,
                 child: Container(
-                  
                   child: Text(
                     "Study Duration: ${CommonMethods.formattedDuration(controller.dailyStudyDuration.value)}",
                     style: GoogleFonts.publicSans(
@@ -809,7 +806,6 @@ class SurveyScreen extends GetView<SurveyController> {
         );
       },
       child: Container(
-        
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -820,8 +816,6 @@ class SurveyScreen extends GetView<SurveyController> {
           ],
         ),
         child: Container(
-
-    
           decoration: BoxDecoration(
             // color: AppColors.clockBackgroundColor,
             borderRadius: BorderRadius.circular(15),
@@ -1002,7 +996,7 @@ class SurveyScreen extends GetView<SurveyController> {
     );
   }
 
-  Widget loadingWidget() {
+  Widget loadingWidget(BuildContext context) {
     return Obx(
       () => Container(
         child: AnimateGradient(
@@ -1148,8 +1142,10 @@ class SurveyScreen extends GetView<SurveyController> {
                                         controller.generatePlan();
                                       },
                                       child: Container(
-                                        height: SizeConfig.blockSizeVertical * 4,
-                                        width: SizeConfig.blockSizeHorizontal * 32,
+                                        height:
+                                            SizeConfig.blockSizeVertical * 4,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 32,
                                         // padding: EdgeInsets.symmetric(
                                         //   horizontal:
                                         //       SizeConfig.blockSizeHorizontal *
@@ -1189,8 +1185,14 @@ class SurveyScreen extends GetView<SurveyController> {
                               : Container(
                                 alignment: Alignment.bottomCenter,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
+                                    StarFeedbackWidget(
+                                      size: SizeConfig.blockSizeHorizontal * 4,
+                                      mainContext: context,
+                                      isShowText: true,
+                                    ),
                                     GestureDetector(
                                       onTap: () async {
                                         await controller

@@ -1,5 +1,6 @@
 import 'package:ai_work_assistant/utills/colors.dart';
 import 'package:ai_work_assistant/utills/size_config.dart';
+import 'package:ai_work_assistant/utills/start_feedback_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -17,10 +18,21 @@ class StudyContentView extends GetView<StudyContentController> {
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
         leading: GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.back();
           },
-          child: Icon(Icons.arrow_back_ios_new_rounded,color: Colors.white,)),
+
+          child: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+        ),
+        actions: [
+          Container(
+            padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 2),
+            child: StarFeedbackWidget(
+              size: SizeConfig.blockSizeHorizontal * 5,
+              mainContext: context,
+            ),
+          ),
+        ],
         title: Text(
           "Session ${controller.sessionNumber}",
           style: GoogleFonts.openSans(
