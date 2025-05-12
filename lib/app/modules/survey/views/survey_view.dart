@@ -4,7 +4,7 @@ import 'package:ai_work_assistant/utills/common_methods.dart';
 import 'package:ai_work_assistant/app/modules/survey/controllers/survey_controller.dart';
 import 'package:ai_work_assistant/utills/colors.dart';
 import 'package:ai_work_assistant/utills/size_config.dart';
-import 'package:ai_work_assistant/utills/start_feedback_widget.dart';
+import 'package:ai_work_assistant/utills/star_feedback_widget.dart';
 import 'package:animate_gradient/animate_gradient.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:chips_choice/chips_choice.dart';

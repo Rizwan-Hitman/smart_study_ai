@@ -1,6 +1,6 @@
 import 'package:ai_work_assistant/utills/colors.dart';
 import 'package:ai_work_assistant/utills/size_config.dart';
-import 'package:ai_work_assistant/utills/start_feedback_widget.dart';
+import 'package:ai_work_assistant/utills/star_feedback_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
