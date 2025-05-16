@@ -16,20 +16,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-// // Top-level function for handling background messages
-// @pragma('vm:entry-point')
-// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-//   developer.log("Received a message in background: ${message.messageId}");
-// }
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Initialize Local Notifications
-  // final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  //     FlutterLocalNotificationsPlugin();
-
   try {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();

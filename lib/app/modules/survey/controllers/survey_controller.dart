@@ -469,9 +469,9 @@ Respond strictly using the following keys:
 
   void pickFile() async {
     await FilePicker.platform.clearTemporaryFiles();
-    await Permission.manageExternalStorage.request();
+    // await Permission.manageExternalStorage.request();
 
-    if (await Permission.manageExternalStorage.isGranted) {
+    if (true) {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf'],

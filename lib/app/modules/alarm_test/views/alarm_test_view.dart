@@ -52,6 +52,32 @@ class AlarmTestView extends GetView<AlarmTestController> {
               );
             }),
           ),
+          Obx(
+            () => Text(
+              '${controller.isListening.value ? "Listening..." : "Not Listening"}',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          Obx(
+            () => Text(
+              '${controller.lastWords.value}',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
+          SizedBox(height: 20),
+          Obx(
+            () => FloatingActionButton(
+              onPressed:
+                  controller.speechToText.value.isNotListening
+                      ? controller.startListening
+                      : controller.stopListening,
+              child: Icon(
+                controller.speechToText.value.isNotListening
+                    ? Icons.mic_off
+                    : Icons.mic,
+              ),
+            ),
+          ),
         ],
       ),
     );

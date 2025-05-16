@@ -898,7 +898,7 @@ class SurveyScreen extends GetView<SurveyController> {
       () => Column(
         children: [
           progressWithTextWidget(
-            "Study material attachment (PDFs)",
+            "Study material attachment (PDF)",
             "(Please attach a PDF file containing study material, if available.)",
           ),
           SizedBox(height: SizeConfig.blockSizeHorizontal * 20),

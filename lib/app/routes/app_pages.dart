@@ -19,6 +19,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
+  // static final INITIAL = Routes.ALARM_TEST;
   static final INITIAL = AppVariables.isNewUser ? Routes.SURVEY : Routes.HOME;
 
   static final routes = [

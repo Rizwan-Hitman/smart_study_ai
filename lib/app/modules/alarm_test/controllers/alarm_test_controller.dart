@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 // Initialize Local Notifications
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -34,16 +37,93 @@ Future<void> triggerAlarm(int id) async {
 }
 
 class AlarmTestController extends GetxController {
+  Rx<SpeechToText> speechToText = SpeechToText().obs;
+  RxBool speechEnabled = false.obs;
+  Rx<String> lastWords = ''.obs;
+  RxBool isListening = false.obs;
+
   Rx<DateTime?> selectedDateTime = Rx<DateTime?>(null);
   final DatabaseHelper dbHelper = DatabaseHelper();
   RxList<Map<String, dynamic>> alarms = <Map<String, dynamic>>[].obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     fetchAlarms();
     testAlarm();
-    // cancelAlarm();
+    await checkPermissionsAndInitialize();
+  }
+
+  /// Request permissions and initialize SpeechToText
+  Future<void> checkPermissionsAndInitialize() async {
+    PermissionStatus micPermission = await Permission.microphone.request();
+
+    if (micPermission.isGranted) {
+      try {
+        speechEnabled.value = await speechToText.value.initialize(
+          onStatus: statusListener,
+          onError: errorListener,
+        );
+
+        print('Speech initialized: ${speechEnabled.value}');
+      } catch (e) {
+        print('Error initializing SpeechToText: $e');
+        speechEnabled.value = false;
+      }
+    } else {
+      print('Microphone permission not granted');
+      speechEnabled.value = false;
+    }
+  }
+
+  /// Start listening to speech
+  void startListening() async {
+    if (!speechEnabled.value) {
+      print('Speech not initialized or not available');
+      return;
+    }
+    isListening.value = true;
+
+    await speechToText.value.listen(onResult: (onSpeechResult));
+  }
+
+  /// Stop listening
+  void stopListening() async {
+    isListening.value = false;
+    await speechToText.value.stop();
+  }
+
+  /// Callback when speech recognition returns results
+  void onSpeechResult(SpeechRecognitionResult result) {
+    lastWords.value = result.recognizedWords;
+  }
+
+  /// Status listener
+  void statusListener(String status) {
+    if (status == 'notListening') {
+      isListening.value = false;
+    } else if (status == 'listening') {
+      isListening.value = true;
+    }
+    print('Speech Status: $status');
+  }
+
+  /// Error listener
+  void errorListener(SpeechRecognitionError error) async {
+    print('Speech Error: ${error.errorMsg}');
+    speechEnabled.value = false;
+    try {
+      speechEnabled.value = await speechToText.value.initialize(
+        onStatus: statusListener,
+        onError: errorListener,
+      );
+
+      print('Speech initialized: ${speechEnabled.value}');
+    } catch (e) {
+      print('Error initializing SpeechToText: $e');
+      speechEnabled.value = false;
+    }
+    speechEnabled.value = true;
   }
 
   Future<void> pickDateTime(BuildContext context) async {
